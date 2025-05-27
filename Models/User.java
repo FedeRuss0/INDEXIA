@@ -14,6 +14,9 @@ public abstract class User {
     public User(int userId2, String username2) {
         
     }
+    public User(String username2, String password2, String email, String string) {
+        //TODO Auto-generated constructor stub
+    }
     public String getUsername() {
         return username;
     }

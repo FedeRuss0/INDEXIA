@@ -6,4 +6,7 @@ public class Admin extends User {
         super(userId, username);
     }
 
+    public Admin(String username, String password, String email) {
+            super(username, password, email, "admin");
+        }
 }
