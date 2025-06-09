@@ -35,7 +35,6 @@ cd indexia
 
 #### Requisitos
 - JDK 24
-- Maven
 - MySQL
 
 #### Crear base de datos
@@ -91,7 +90,7 @@ El frontend estará disponible en: `http://localhost:5173`
 
 Para migrar a otra máquina:
 
-1. Instalar JDK 24, Maven y MySQL.
+1. Instalar JDK 24 y MySQL.
 2. Instalar Node.js.
 3. Clonar este proyecto y seguir los pasos de configuración anteriores.
 4. Verificar que los puertos 8080 (backend) y 5173 (frontend) estén disponibles.
