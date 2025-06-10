@@ -44,7 +44,7 @@ Conéctate a tu servidor MySQL y ejecuta:
 ```sql
 CREATE DATABASE indexia;
 ```
-o corre el init.sql en MySQL para inicializar la base de datos.(inserta 15 libros y 1 usuario de cada rol)
+Luego de correr el backend para que genere las tablas. Corra el init.sql en MySQL para inicializar la base de datos.(inserta 15 libros y 1 usuario de cada rol)
 
 #### Configurar conexión en `application.properties`
 
