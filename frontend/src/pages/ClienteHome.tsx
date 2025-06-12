@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import MisPrestamos from "../components/cliente/MisPrestamos";
 
 interface Libro {
-  id: number;
+  codigoLibro: string; // CAMBIO: antes era id
   titulo: string;
   autor: string;
   disponible: boolean;
@@ -57,7 +57,7 @@ const ClienteHome = () => {
 
           <ul className="lista-libros">
             {librosPagina.map((libro) => (
-              <li key={libro.id} className="item-libro">
+              <li key={libro.codigoLibro} className="item-libro">
                 <div>
                   <h3 className="titulo-libro">{libro.titulo}</h3>
                   <p className="autor-libro">Autor: {libro.autor}</p>
@@ -65,7 +65,7 @@ const ClienteHome = () => {
                     {libro.disponible ? "Disponible" : "No disponible"}
                   </p>
                 </div>
-                <Link to={`/cliente/libro/${libro.id}`} className="boton-vermas">
+                <Link to={`/cliente/libro/${libro.codigoLibro}`} className="boton-vermas">
                   Ver más
                 </Link>
               </li>

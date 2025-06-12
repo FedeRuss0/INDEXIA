@@ -12,7 +12,10 @@ public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; 
+
+    @Column(unique = true, updatable = false)
+    private String codigoLibro; 
 
     private String titulo;
     private String autor;
@@ -23,5 +26,10 @@ public class Libro {
     private String isbn;
 
     private boolean disponible = true;
-}
 
+    public void generarCodigoLibro() {
+        if (this.id != null) {
+            this.codigoLibro = String.format("%08d", this.id);
+        }
+    }
+}

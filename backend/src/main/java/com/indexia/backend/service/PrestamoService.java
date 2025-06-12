@@ -93,8 +93,13 @@ public class PrestamoService {
         return prestamoRepository.findAll();
     }
 
+    public List<Prestamo> obtenerPrestamosValidos() {
+        return prestamoRepository.findAll().stream()
+                .filter(p -> p.getUsuario() != null && p.getLibro() != null)
+                .toList();
+    }
+
     public void eliminarPrestamo(Long id) {
         prestamoRepository.deleteById(id);
     }
 }
-

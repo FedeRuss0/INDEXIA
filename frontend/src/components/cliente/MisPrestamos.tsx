@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 interface Prestamo {
   id: number;
-  usuario: { id: number; nombre: string };
+  usuario: { usuarioId: string; nombre: string };
   libro: { titulo: string };
   fechaInicio: string;
   fechaFin: string;
@@ -13,14 +13,14 @@ interface Prestamo {
 
 const MisPrestamos = () => {
   const [prestamos, setPrestamos] = useState<Prestamo[]>([]);
-  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+  const usuario = JSON.parse(localStorage.getItem("usuario") ?? "null");
 
   const fetchPrestamos = async () => {
     const res = await fetch("http://localhost:8080/prestamos");
     const data = await res.json();
     const filtrados = data.filter(
       (p: Prestamo) =>
-        p.usuario?.id === usuario?.id && p.aprobado && !p.devuelto
+        p.usuario?.usuarioId === usuario?.usuarioId && p.aprobado && !p.devuelto
     );
     setPrestamos(filtrados);
   };

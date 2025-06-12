@@ -1,7 +1,7 @@
 interface Prestamo {
   id: number;
-  usuario: { nombre: string };
-  libro: { titulo: string };
+  usuario: { usuarioId: string; nombre: string };
+  libro: { codigoLibro: string; titulo: string }; 
   fechaInicio: string;
   fechaFin: string;
 }
@@ -18,8 +18,8 @@ const PrestamosPendientes = ({ prestamos, onAprobar, onRechazar }: Props) => (
     <table className="tabla">
       <thead>
         <tr>
-          <th>Libro</th>
-          <th>Usuario</th>
+          <th>Libro (Código)</th>
+          <th>Usuario (ID)</th>
           <th>Inicio</th>
           <th>Fin</th>
           <th>Acciones</th>
@@ -28,8 +28,8 @@ const PrestamosPendientes = ({ prestamos, onAprobar, onRechazar }: Props) => (
       <tbody>
         {prestamos.map((p) => (
           <tr key={p.id}>
-            <td>{p.libro.titulo}</td>
-            <td>{p.usuario.nombre}</td>
+            <td>{p.libro.titulo} ({p.libro.codigoLibro})</td>
+            <td>{p.usuario.nombre} ({p.usuario.usuarioId})</td>
             <td>{p.fechaInicio}</td>
             <td>{p.fechaFin}</td>
             <td className="tabla-acciones">

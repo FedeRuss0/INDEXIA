@@ -5,8 +5,8 @@ import DevolucionesPendientes from "../components/DevolucionesPendientes";
 
 interface Prestamo {
   id: number;
-  usuario: { id: number; nombre: string };
-  libro: { id: number; titulo: string };
+  usuario: { usuarioId: string; nombre: string }; // CAMBIO
+  libro: { codigoLibro: string; titulo: string }; // CAMBIO
   fechaInicio: string;
   fechaFin: string;
   aprobado: boolean;

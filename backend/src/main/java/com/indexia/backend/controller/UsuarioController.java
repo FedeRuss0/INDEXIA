@@ -1,50 +1,53 @@
 package com.indexia.backend.controller;
 
 import com.indexia.backend.model.Usuario;
-import com.indexia.backend.repository.UsuarioRepository;
+import com.indexia.backend.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "http://localhost:5173") // por si falta CORS
+@CrossOrigin(origins = "http://localhost:5173")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
-    // Crear
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        return usuarioService.guardar(usuario);
     }
 
-    // Listar todos
     @GetMapping
     public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
+        return usuarioService.listarTodos();
     }
 
-    // Editar
-    @PutMapping("/{id}")
-    public Usuario actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow();
-        usuario.setNombre(usuarioActualizado.getNombre());
-        usuario.setEmail(usuarioActualizado.getEmail());
-        usuario.setRol(usuarioActualizado.getRol());
-
-        if (usuarioActualizado.getPassword() != null && !usuarioActualizado.getPassword().isEmpty()) {
-            usuario.setPassword(usuarioActualizado.getPassword());
-        }
-
-        return usuarioRepository.save(usuario);
+    // 🔹 Buscar por usuarioId (ej: A1)
+    @GetMapping("/{usuarioId}")
+    public ResponseEntity<Usuario> obtenerPorUsuarioId(@PathVariable String usuarioId) {
+        return usuarioService.buscarPorUsuarioId(usuarioId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Eliminar
-    @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable Long id) {
-        usuarioRepository.deleteById(id);
+    // 🔹 Actualizar por usuarioId
+    @PutMapping("/{usuarioId}")
+    public ResponseEntity<Usuario> actualizarUsuario(
+            @PathVariable String usuarioId,
+            @RequestBody Usuario usuarioActualizado) {
+
+        return usuarioService.actualizarPorUsuarioId(usuarioId, usuarioActualizado)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // 🔹 Eliminar por usuarioId
+    @DeleteMapping("/{usuarioId}")
+    public void eliminarUsuario(@PathVariable String usuarioId) {
+        usuarioService.eliminarPorUsuarioId(usuarioId);
     }
 }

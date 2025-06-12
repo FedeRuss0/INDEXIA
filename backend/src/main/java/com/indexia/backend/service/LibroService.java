@@ -14,26 +14,31 @@ public class LibroService {
     @Autowired
     private LibroRepository libroRepository;
 
+    // Crear libro con codigoLibro tipo 00000001
     public Libro guardar(Libro libro) {
-        return libroRepository.save(libro);
+        // Primer guardado: genera el ID
+        Libro guardado = libroRepository.save(libro);
+
+        // Asigna el codigoLibro basado en el ID
+        guardado.generarCodigoLibro();
+
+        // Segundo guardado: guarda con codigoLibro
+        return libroRepository.save(guardado);
     }
 
+    // Listar todos
     public List<Libro> listarTodos() {
         return libroRepository.findAll();
     }
 
-    public Optional<Libro> buscarPorId(Long id) {
-        return libroRepository.findById(id);
+    // 🔹 Buscar por códigoLibro (nuevo ID visible)
+    public Optional<Libro> buscarPorCodigo(String codigoLibro) {
+        return libroRepository.findByCodigoLibro(codigoLibro);
     }
 
-    public void eliminar(Long id) {
-        libroRepository.deleteById(id);
-    }
-
-    public Libro actualizar(Long id, Libro libroActualizado) {
-        Optional<Libro> existente = libroRepository.findById(id);
-        if (existente.isPresent()) {
-            Libro libro = existente.get();
+    // 🔹 Actualizar por códigoLibro
+    public Optional<Libro> actualizarPorCodigo(String codigoLibro, Libro libroActualizado) {
+        return libroRepository.findByCodigoLibro(codigoLibro).map(libro -> {
             libro.setTitulo(libroActualizado.getTitulo());
             libro.setAutor(libroActualizado.getAutor());
             libro.setGenero(libroActualizado.getGenero());
@@ -41,8 +46,12 @@ public class LibroService {
             libro.setIsbn(libroActualizado.getIsbn());
             libro.setDisponible(libroActualizado.isDisponible());
             return libroRepository.save(libro);
-        } else {
-            return null;
-        }
+        });
+    }
+
+    // 🔹 Eliminar por códigoLibro
+    public void eliminarPorCodigo(String codigoLibro) {
+        libroRepository.findByCodigoLibro(codigoLibro)
+                .ifPresent(libroRepository::delete);
     }
 }

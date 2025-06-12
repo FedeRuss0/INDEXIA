@@ -3,18 +3,10 @@ import LibroForm from "./LibroForm";
 import LibroList from "./LibroList";
 import UsuarioForm from "./UsuarioForm";
 import UsuarioList from "./UsuarioList";
+import type { Libro } from "../../types/Libro";
 import type { Usuario } from "../../types/Usuario";
 
-// Tipos
-type Libro = {
-  id?: number;
-  titulo: string;
-  autor: string;
-  genero: string;
-  anio: number;
-  isbn: string;
-  disponible: boolean;
-};
+
 
 const AdminPanel = () => {
   // CRUD Libros
@@ -28,7 +20,7 @@ const AdminPanel = () => {
     disponible: true,
   });
   const [modoEditarLibro, setModoEditarLibro] = useState(false);
-  const [idEditandoLibro, setIdEditandoLibro] = useState<number | null>(null);
+  const [codigoLibroEditando, setCodigoLibroEditando] = useState<string | null>(null); // CAMBIO
 
   const fetchLibros = async () => {
     const res = await fetch("http://localhost:8080/libros");
@@ -40,11 +32,11 @@ const AdminPanel = () => {
     e.preventDefault();
 
     const libroAEnviar = modoEditarLibro
-      ? { ...formLibro, id: idEditandoLibro }
+      ? { ...formLibro, codigoLibro: codigoLibroEditando }
       : formLibro;
 
     const url = modoEditarLibro
-      ? `http://localhost:8080/libros/${idEditandoLibro}`
+      ? `http://localhost:8080/libros/${codigoLibroEditando}`
       : "http://localhost:8080/libros";
     const method = modoEditarLibro ? "PUT" : "POST";
 
@@ -63,19 +55,19 @@ const AdminPanel = () => {
       disponible: true,
     });
     setModoEditarLibro(false);
-    setIdEditandoLibro(null);
+    setCodigoLibroEditando(null);
     fetchLibros();
   };
 
-  const handleDeleteLibro = async (id: number) => {
-    await fetch(`http://localhost:8080/libros/${id}`, { method: "DELETE" });
+  const handleDeleteLibro = async (codigoLibro: string) => {
+    await fetch(`http://localhost:8080/libros/${codigoLibro}`, { method: "DELETE" });
     fetchLibros();
   };
 
   const handleEditLibro = (libro: Libro) => {
     setFormLibro(libro);
     setModoEditarLibro(true);
-    setIdEditandoLibro(libro.id || null);
+    setCodigoLibroEditando(libro.codigoLibro || null);
   };
 
   // CRUD Usuarios
@@ -87,7 +79,7 @@ const AdminPanel = () => {
     rol: "CLIENTE",
   });
   const [modoEditarUsuario, setModoEditarUsuario] = useState(false);
-  const [idEditandoUsuario, setIdEditandoUsuario] = useState<number | null>(null);
+  const [usuarioIdEditando, setUsuarioIdEditando] = useState<string | null>(null); // CAMBIO
 
   const fetchUsuarios = async () => {
     const res = await fetch("http://localhost:8080/usuarios");
@@ -98,7 +90,7 @@ const AdminPanel = () => {
   const handleSubmitUsuario = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = modoEditarUsuario
-      ? `http://localhost:8080/usuarios/${idEditandoUsuario}`
+      ? `http://localhost:8080/usuarios/${usuarioIdEditando}`
       : "http://localhost:8080/usuarios";
     const method = modoEditarUsuario ? "PUT" : "POST";
 
@@ -115,19 +107,19 @@ const AdminPanel = () => {
       rol: "CLIENTE",
     });
     setModoEditarUsuario(false);
-    setIdEditandoUsuario(null);
+    setUsuarioIdEditando(null);
     fetchUsuarios();
   };
 
-  const handleDeleteUsuario = async (id: number) => {
-    await fetch(`http://localhost:8080/usuarios/${id}`, { method: "DELETE" });
+  const handleDeleteUsuario = async (usuarioId: string) => {
+    await fetch(`http://localhost:8080/usuarios/${usuarioId}`, { method: "DELETE" });
     fetchUsuarios();
   };
 
   const handleEditUsuario = (usuario: Usuario) => {
     setFormUsuario(usuario);
     setModoEditarUsuario(true);
-    setIdEditandoUsuario(usuario.id || null);
+    setUsuarioIdEditando(usuario.usuarioId || null); // CAMBIO
   };
 
   useEffect(() => {

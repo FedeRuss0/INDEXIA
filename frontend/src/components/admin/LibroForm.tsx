@@ -1,13 +1,8 @@
 import React from "react";
+import type { Libro } from "../../types/Libro";
 
-type Libro = {
-  titulo: string;
-  autor: string;
-  genero: string;
-  anio: number;
-  isbn: string;
-  disponible: boolean;
-};
+
+
 
 type Props = {
   form: Libro;

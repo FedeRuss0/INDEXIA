@@ -23,4 +23,11 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    @Column(unique = true, updatable = false)
+    private String usuarioId; // A1, B1, C1...
+
+    public void generarUsuarioId(String prefijo, long secuencia) {
+        this.usuarioId = prefijo + secuencia;
+    }
 }

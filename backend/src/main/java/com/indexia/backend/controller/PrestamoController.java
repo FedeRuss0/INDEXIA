@@ -46,8 +46,9 @@ public class PrestamoController {
     }
 
     @GetMapping
-    public List<Prestamo> listarPrestamos() {
-        return prestamoService.obtenerTodosLosPrestamos();
+    public ResponseEntity<List<Prestamo>> listarPrestamos() {
+        List<Prestamo> prestamosValidos = prestamoService.obtenerPrestamosValidos();
+        return ResponseEntity.ok(prestamosValidos);
     }
 
     @DeleteMapping("/{id}")
@@ -56,4 +57,3 @@ public class PrestamoController {
         return ResponseEntity.noContent().build();
     }
 }
-

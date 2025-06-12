@@ -1,10 +1,8 @@
-interface Usuario {
-  id?: number;
-  nombre: string;
-  email: string;
-  password: string;
-  rol: "ADMIN" | "BIBLIOTECARIO" | "CLIENTE";
-}
+import type { Usuario } from "../../types/Usuario";
+
+
+
+
 
 interface Props {
   form: Usuario;

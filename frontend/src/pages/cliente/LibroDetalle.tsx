@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-interface Libro {
-  id: number;
-  titulo: string;
-  autor: string;
-  genero: string;
-  anio: number;
-  isbn: string;
-  disponible: boolean;
-}
+import type { Libro } from "../../types/Libro";
 
 const LibroDetalle = () => {
   const { id } = useParams<{ id: string }>();
@@ -71,6 +62,7 @@ const LibroDetalle = () => {
   return (
     <div className="libro-detalle-container">
       <h2 className="libro-titulo">{libro.titulo}</h2>
+      <p><strong>Código:</strong> {libro.codigoLibro}</p>
       <p><strong>Autor:</strong> {libro.autor}</p>
       <p><strong>Género:</strong> {libro.genero}</p>
       <p><strong>Año:</strong> {libro.anio}</p>
@@ -88,12 +80,9 @@ const LibroDetalle = () => {
         </button>
       )}
 
-      <button
-  onClick={() => navigate("/cliente")}
-  className="boton-volver"
->
-  ← Volver
-</button>
+      <button onClick={() => navigate("/cliente")} className="boton-volver">
+        ← Volver
+      </button>
     </div>
   );
 };
