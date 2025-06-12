@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -25,14 +26,27 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-section navbar-left">
-        <span className="usuario-nombre">Bienvenido{nombre ? `, ${nombre}` : ""}</span>
+        <span className="usuario-nombre">
+          Bienvenido{nombre ? `, ${nombre}` : ""}
+        </span>
       </div>
       <div className="navbar-section navbar-center">
         <span className="navbar-title">INDEXIA</span>
       </div>
       <div className="navbar-section navbar-right">
-        <button className="logout-button" onClick={handleLogout}>
-          Cerrar sesión
+        <button
+          className="icono-navbar"
+          onClick={() => navigate("/perfil")}
+          title="Perfil"
+        >
+          <FaUser />
+        </button>
+        <button
+          className="icono-navbar"
+          onClick={handleLogout}
+          title="Cerrar sesión"
+        >
+          <FaSignOutAlt />
         </button>
       </div>
     </nav>

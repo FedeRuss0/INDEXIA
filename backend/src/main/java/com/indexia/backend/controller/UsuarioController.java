@@ -26,28 +26,28 @@ public class UsuarioController {
         return usuarioService.listarTodos();
     }
 
-    // 🔹 Buscar por usuarioId (ej: A1)
-    @GetMapping("/{usuarioId}")
-    public ResponseEntity<Usuario> obtenerPorUsuarioId(@PathVariable String usuarioId) {
-        return usuarioService.buscarPorUsuarioId(usuarioId)
+    // 🔹 Buscar por ID (Long)
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id) {
+        return usuarioService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // 🔹 Actualizar por usuarioId
-    @PutMapping("/{usuarioId}")
+    // 🔹 Actualizar por ID
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(
-            @PathVariable String usuarioId,
+            @PathVariable Long id,
             @RequestBody Usuario usuarioActualizado) {
 
-        return usuarioService.actualizarPorUsuarioId(usuarioId, usuarioActualizado)
+        return usuarioService.actualizarPorId(id, usuarioActualizado)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // 🔹 Eliminar por usuarioId
-    @DeleteMapping("/{usuarioId}")
-    public void eliminarUsuario(@PathVariable String usuarioId) {
-        usuarioService.eliminarPorUsuarioId(usuarioId);
+    // 🔹 Eliminar por ID
+    @DeleteMapping("/{id}")
+    public void eliminarUsuario(@PathVariable Long id) {
+        usuarioService.eliminarPorId(id);
     }
 }

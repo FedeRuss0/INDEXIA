@@ -1,8 +1,9 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
 
 interface Props {
-  children: JSX.Element;
-  rolPermitido: string;
+  children: React.ReactNode;
+  rolPermitido?: string;
 }
 
 const RutaProtegida = ({ children, rolPermitido }: Props) => {
@@ -12,11 +13,11 @@ const RutaProtegida = ({ children, rolPermitido }: Props) => {
     return <Navigate to="/login" />;
   }
 
-  if (usuario.rol !== rolPermitido) {
+  if (rolPermitido && usuario.rol !== rolPermitido) {
     return <Navigate to="/" />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default RutaProtegida;

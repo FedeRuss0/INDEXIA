@@ -21,7 +21,17 @@ const Login = () => {
       );
 
       if (user) {
-        localStorage.setItem("usuario", JSON.stringify(user));
+        // Guardar solo los campos necesarios
+        const datosUsuario = {
+          id: user.id,
+          usuarioId: user.usuarioId,
+          nombre: user.nombre,
+          email: user.email,
+          rol: user.rol,
+          password: user.password, // ⚠️ no recomendado guardar la password, pero lo mantenemos por tu lógica actual
+        };
+
+        localStorage.setItem("usuario", JSON.stringify(datosUsuario));
 
         switch (user.rol) {
           case "ADMIN":

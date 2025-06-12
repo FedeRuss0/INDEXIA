@@ -1,34 +1,63 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CambiarContrasenia = () => {
   const [email, setEmail] = useState("");
   const [actual, setActual] = useState("");
   const [nueva, setNueva] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMensaje("");
 
     try {
-      const res = await fetch("http://localhost:8080/usuarios");
-      const usuarios = await res.json();
-      const user = usuarios.find(
-        (u: any) => u.email === email && u.password === actual
-      );
+      const usuarioStr = localStorage.getItem("usuario");
+      if (!usuarioStr) {
+        setMensaje("No hay sesión activa");
+        return;
+      }
 
-      if (!user) return setMensaje("Email o contraseña actual incorrectos");
+      const usuario = JSON.parse(usuarioStr);
 
-      const actualizado = { ...user, password: nueva };
+      if (email !== usuario.email) {
+        setMensaje("El email no coincide con el usuario logueado");
+        return;
+      }
 
-      await fetch(`http://localhost:8080/usuarios/${user.id}`, {
+      if (actual !== usuario.password) {
+        setMensaje("Contraseña actual incorrecta");
+        return;
+      }
+
+      const actualizado = {
+        id: usuario.id, // clave primaria
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+        password: nueva,
+        usuarioId: usuario.usuarioId, // nombre correcto del campo
+      };
+
+      const response = await fetch(`http://localhost:8080/usuarios/${usuario.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(actualizado),
       });
 
+      if (!response.ok) {
+        setMensaje("Error al actualizar la contraseña en el servidor");
+        return;
+      }
+
+      localStorage.setItem("usuario", JSON.stringify(actualizado));
       setMensaje("Contraseña actualizada correctamente");
+
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500);
+
     } catch (err) {
       console.error(err);
       setMensaje("Error al actualizar la contraseña");
@@ -68,12 +97,19 @@ const CambiarContrasenia = () => {
         </button>
       </form>
 
-      {mensaje && <p className="login-feedback">{mensaje}</p>}
+      {mensaje && (
+        <p className={`login-feedback ${mensaje.includes("correctamente") ? "success" : "error"}`}>
+          {mensaje}
+        </p>
+      )}
 
       <div className="login-extra-links">
-        <Link to="/login" className="login-secondary-button">
-          Volver al login
-        </Link>
+        <button
+          className="login-secondary-button"
+          onClick={() => navigate(-1)}
+        >
+          Volver
+        </button>
       </div>
     </div>
   );

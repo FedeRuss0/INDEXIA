@@ -8,6 +8,7 @@ import ClienteHome from "./pages/ClienteHome";
 import RutaProtegida from "./components/RutaProtegida";
 import LibroDetalle from "./pages/cliente/LibroDetalle"; 
 import CambiarContrasenia from "./pages/CambiarContrasenia";
+import Perfil from "./pages/Perfil";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/cliente/libro/:id" element={<LibroDetalle />} />
         <Route path="/cambiar-contrasenia" element={<CambiarContrasenia />} />
+        <Route path="/perfil" element={<RutaProtegida><Perfil /></RutaProtegida>} />
 
 
         <Route

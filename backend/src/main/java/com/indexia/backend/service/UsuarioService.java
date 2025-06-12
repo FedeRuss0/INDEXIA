@@ -28,14 +28,14 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    // 🔹 Buscar por usuarioId
-    public Optional<Usuario> buscarPorUsuarioId(String usuarioId) {
-        return usuarioRepository.findByUsuarioId(usuarioId);
+    // 🔹 Buscar por ID (Long)
+    public Optional<Usuario> buscarPorId(Long id) {
+        return usuarioRepository.findById(id);
     }
 
-    // 🔹 Actualizar por usuarioId
-    public Optional<Usuario> actualizarPorUsuarioId(String usuarioId, Usuario datosActualizados) {
-        return usuarioRepository.findByUsuarioId(usuarioId).map(usuario -> {
+    // 🔹 Actualizar por ID
+    public Optional<Usuario> actualizarPorId(Long id, Usuario datosActualizados) {
+        return usuarioRepository.findById(id).map(usuario -> {
             usuario.setNombre(datosActualizados.getNombre());
             usuario.setEmail(datosActualizados.getEmail());
             usuario.setRol(datosActualizados.getRol());
@@ -48,9 +48,9 @@ public class UsuarioService {
         });
     }
 
-    // 🔹 Eliminar por usuarioId
-    public void eliminarPorUsuarioId(String usuarioId) {
-        usuarioRepository.findByUsuarioId(usuarioId)
+    // 🔹 Eliminar por ID
+    public void eliminarPorId(Long id) {
+        usuarioRepository.findById(id)
                 .ifPresent(usuarioRepository::delete);
     }
 
