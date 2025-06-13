@@ -5,6 +5,7 @@ import com.indexia.backend.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,31 +15,37 @@ public class LibroService {
     @Autowired
     private LibroRepository libroRepository;
 
-    // Crear libro con codigoLibro tipo 00000001
     public Libro guardar(Libro libro) {
-        // Primer guardado: genera el ID
-        Libro guardado = libroRepository.save(libro);
+        int anioActual = Year.now().getValue();
+        if (libro.getAnio() > anioActual) {
+            throw new IllegalArgumentException("El año del libro no puede ser mayor al actual.");
+        }
 
-        // Asigna el codigoLibro basado en el ID
+        // Primer guardado: se genera el ID
+        Libro guardado = libroRepository.saveAndFlush(libro);
+
+        // Generar codigoLibro basado en ID
         guardado.generarCodigoLibro();
 
-        // Segundo guardado: guarda con codigoLibro
+        // Segundo guardado: persiste el codigoLibro
         return libroRepository.save(guardado);
     }
 
-    // Listar todos
     public List<Libro> listarTodos() {
         return libroRepository.findAll();
     }
 
-    // 🔹 Buscar por códigoLibro (nuevo ID visible)
-    public Optional<Libro> buscarPorCodigo(String codigoLibro) {
-        return libroRepository.findByCodigoLibro(codigoLibro);
+    public Optional<Libro> buscarPorId(Long id) {
+        return libroRepository.findById(id);
     }
 
-    // 🔹 Actualizar por códigoLibro
-    public Optional<Libro> actualizarPorCodigo(String codigoLibro, Libro libroActualizado) {
-        return libroRepository.findByCodigoLibro(codigoLibro).map(libro -> {
+    public Optional<Libro> actualizarPorId(Long id, Libro libroActualizado) {
+        int anioActual = Year.now().getValue();
+        if (libroActualizado.getAnio() > anioActual) {
+            throw new IllegalArgumentException("El año del libro no puede ser mayor al actual.");
+        }
+
+        return libroRepository.findById(id).map(libro -> {
             libro.setTitulo(libroActualizado.getTitulo());
             libro.setAutor(libroActualizado.getAutor());
             libro.setGenero(libroActualizado.getGenero());
@@ -49,9 +56,8 @@ public class LibroService {
         });
     }
 
-    // 🔹 Eliminar por códigoLibro
-    public void eliminarPorCodigo(String codigoLibro) {
-        libroRepository.findByCodigoLibro(codigoLibro)
+    public void eliminarPorId(Long id) {
+        libroRepository.findById(id)
                 .ifPresent(libroRepository::delete);
     }
 }

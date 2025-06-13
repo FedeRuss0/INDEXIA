@@ -22,10 +22,10 @@ public class LibroController {
         return libroService.listarTodos();
     }
 
-    // 🔹 Consultar por codigoLibro (ej: 00000001)
-    @GetMapping("/{codigoLibro}")
-    public ResponseEntity<Libro> verPorCodigo(@PathVariable String codigoLibro) {
-        return libroService.buscarPorCodigo(codigoLibro)
+    // 🔹 Consultar por ID (usado por LibroDetalle)
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Libro> verPorId(@PathVariable Long id) {
+        return libroService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -36,20 +36,21 @@ public class LibroController {
         return libroService.guardar(libro);
     }
 
-    // 🔹 Actualizar por codigoLibro
-    @PutMapping("/{codigoLibro}")
+    // Actualizar por ID
+    @PutMapping("/{id}")
     public ResponseEntity<Libro> actualizar(
-            @PathVariable String codigoLibro,
+            @PathVariable Long id,
             @RequestBody Libro libroActualizado) {
 
-        return libroService.actualizarPorCodigo(codigoLibro, libroActualizado)
+        return libroService.actualizarPorId(id, libroActualizado)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // 🔹 Eliminar por codigoLibro
-    @DeleteMapping("/{codigoLibro}")
-    public void eliminar(@PathVariable String codigoLibro) {
-        libroService.eliminarPorCodigo(codigoLibro);
+    // Eliminar por ID
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        libroService.eliminarPorId(id);
     }
 }
+

@@ -6,8 +6,6 @@ import UsuarioList from "./UsuarioList";
 import type { Libro } from "../../types/Libro";
 import type { Usuario } from "../../types/Usuario";
 
-
-
 const AdminPanel = () => {
   // CRUD Libros
   const [libros, setLibros] = useState<Libro[]>([]);
@@ -20,7 +18,7 @@ const AdminPanel = () => {
     disponible: true,
   });
   const [modoEditarLibro, setModoEditarLibro] = useState(false);
-  const [codigoLibroEditando, setCodigoLibroEditando] = useState<string | null>(null); // CAMBIO
+  const [mensajeErrorLibro, setMensajeErrorLibro] = useState<string | null>(null); // Nuevo estado
 
   const fetchLibros = async () => {
     const res = await fetch("http://localhost:8080/libros");
@@ -30,44 +28,49 @@ const AdminPanel = () => {
 
   const handleSubmitLibro = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMensajeErrorLibro(null); // Limpiar mensaje previo
 
-    const libroAEnviar = modoEditarLibro
-      ? { ...formLibro, codigoLibro: codigoLibroEditando }
-      : formLibro;
-
-    const url = modoEditarLibro
-      ? `http://localhost:8080/libros/${codigoLibroEditando}`
+    const url = modoEditarLibro && formLibro.id
+      ? `http://localhost:8080/libros/${formLibro.id}`
       : "http://localhost:8080/libros";
     const method = modoEditarLibro ? "PUT" : "POST";
 
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(libroAEnviar),
-    });
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formLibro),
+      });
 
-    setFormLibro({
-      titulo: "",
-      autor: "",
-      genero: "",
-      anio: new Date().getFullYear(),
-      isbn: "",
-      disponible: true,
-    });
-    setModoEditarLibro(false);
-    setCodigoLibroEditando(null);
-    fetchLibros();
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Error al guardar el libro");
+      }
+
+      setFormLibro({
+        titulo: "",
+        autor: "",
+        genero: "",
+        anio: new Date().getFullYear(),
+        isbn: "",
+        disponible: true,
+      });
+      setModoEditarLibro(false);
+      fetchLibros();
+    } catch (err: any) {
+      setMensajeErrorLibro(err.message || "Error inesperado");
+    }
   };
 
-  const handleDeleteLibro = async (codigoLibro: string) => {
-    await fetch(`http://localhost:8080/libros/${codigoLibro}`, { method: "DELETE" });
+  const handleDeleteLibro = async (id: number) => {
+    await fetch(`http://localhost:8080/libros/${id}`, { method: "DELETE" });
     fetchLibros();
   };
 
   const handleEditLibro = (libro: Libro) => {
     setFormLibro(libro);
     setModoEditarLibro(true);
-    setCodigoLibroEditando(libro.codigoLibro || null);
+    setMensajeErrorLibro(null);
   };
 
   // CRUD Usuarios
@@ -79,7 +82,7 @@ const AdminPanel = () => {
     rol: "CLIENTE",
   });
   const [modoEditarUsuario, setModoEditarUsuario] = useState(false);
-  const [usuarioIdEditando, setUsuarioIdEditando] = useState<string | null>(null); // CAMBIO
+  const [usuarioIdEditando, setUsuarioIdEditando] = useState<string | null>(null);
 
   const fetchUsuarios = async () => {
     const res = await fetch("http://localhost:8080/usuarios");
@@ -119,7 +122,7 @@ const AdminPanel = () => {
   const handleEditUsuario = (usuario: Usuario) => {
     setFormUsuario(usuario);
     setModoEditarUsuario(true);
-    setUsuarioIdEditando(usuario.usuarioId || null); // CAMBIO
+    setUsuarioIdEditando(usuario.usuarioId || null);
   };
 
   useEffect(() => {
@@ -137,10 +140,13 @@ const AdminPanel = () => {
           onSubmit={handleSubmitLibro}
           modoEditar={modoEditarLibro}
         />
+        {mensajeErrorLibro && (
+          <p className="error-libro">{mensajeErrorLibro}</p>
+        )}
         <LibroList
           libros={libros}
           onEdit={handleEditLibro}
-          onDelete={handleDeleteLibro}
+          onDelete={(libroId) => handleDeleteLibro(libroId)}
         />
       </section>
 

@@ -1,9 +1,6 @@
 import React from "react";
 import type { Libro } from "../../types/Libro";
 
-
-
-
 type Props = {
   form: Libro;
   setForm: React.Dispatch<React.SetStateAction<Libro>>;
@@ -55,7 +52,7 @@ const LibroForm: React.FC<Props> = ({ form, setForm, onSubmit, modoEditar }) => 
         type="number"
         name="anio"
         placeholder="Año"
-        value={form.anio}
+        value={form.anio === 0 ? "" : form.anio}
         onChange={handleChange}
         required
       />

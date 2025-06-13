@@ -12,7 +12,7 @@ const LibroDetalle = () => {
   useEffect(() => {
     const fetchLibro = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/libros/${id}`);
+        const res = await fetch(`http://localhost:8080/libros/id/${id}`);
         if (!res.ok) throw new Error("No se pudo obtener el libro");
         const data = await res.json();
         setLibro(data);
@@ -88,3 +88,4 @@ const LibroDetalle = () => {
 };
 
 export default LibroDetalle;
+

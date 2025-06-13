@@ -14,7 +14,7 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
 
-    @Column(unique = true, updatable = false)
+    @Column(unique = true)
     private String codigoLibro; 
 
     private String titulo;
@@ -29,7 +29,7 @@ public class Libro {
 
     public void generarCodigoLibro() {
         if (this.id != null) {
-            this.codigoLibro = String.format("%08d", this.id);
+            this.codigoLibro = String.valueOf(100000 + this.id);
         }
     }
 }
