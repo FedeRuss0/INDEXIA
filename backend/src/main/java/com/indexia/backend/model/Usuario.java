@@ -27,6 +27,10 @@ public class Usuario {
     @Column(unique = true, updatable = false)
     private String usuarioId; // A1, B1, C1...
 
+    @Column(nullable = false)
+    private boolean verificado = false;
+
+
     public void generarUsuarioId(String prefijo, long secuencia) {
         this.usuarioId = prefijo + secuencia;
     }

@@ -21,14 +21,18 @@ const Login = () => {
       );
 
       if (user) {
-        // Guardar solo los campos necesarios
+        if (!user.verificado) {
+          setError("Tu cuenta aún no fue verificada. Revisá tu correo.");
+          return;
+        }
+
         const datosUsuario = {
           id: user.id,
           usuarioId: user.usuarioId,
           nombre: user.nombre,
           email: user.email,
           rol: user.rol,
-          password: user.password, // ⚠️ no recomendado guardar la password, pero lo mantenemos por tu lógica actual
+          password: user.password,
         };
 
         localStorage.setItem("usuario", JSON.stringify(datosUsuario));
@@ -85,8 +89,8 @@ const Login = () => {
         <Link to="/register" className="login-secondary-button">
           Registrate acá
         </Link>
-        <Link to="/cambiar-contrasenia" className="login-secondary-button">
-          ¿Cambiar Contraseña?
+        <Link to="/recuperar" className="login-secondary-button">
+          ¿Olvidaste tu contraseña?
         </Link>
       </div>
     </div>

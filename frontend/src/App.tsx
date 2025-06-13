@@ -9,6 +9,9 @@ import RutaProtegida from "./components/RutaProtegida";
 import LibroDetalle from "./pages/cliente/LibroDetalle"; 
 import CambiarContrasenia from "./pages/CambiarContrasenia";
 import Perfil from "./pages/Perfil";
+import VerificarCuenta from "./pages/VerificarCuenta";
+import ResetPassword from "./pages/ResetPassword";
+import EnviarCorreo from "./pages/EnviarCorreo";
 
 
 function App() {
@@ -20,6 +23,10 @@ function App() {
         <Route path="/cliente/libro/:id" element={<LibroDetalle />} />
         <Route path="/cambiar-contrasenia" element={<CambiarContrasenia />} />
         <Route path="/perfil" element={<RutaProtegida><Perfil /></RutaProtegida>} />
+        <Route path="/verificar" element={<VerificarCuenta />} />
+        <Route path="/resetear/:token" element={<ResetPassword />} />
+        <Route path="/recuperar" element={<EnviarCorreo />} />
+
 
 
         <Route

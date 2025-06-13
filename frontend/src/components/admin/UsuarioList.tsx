@@ -3,7 +3,7 @@ import type { Usuario } from "../../types/Usuario";
 interface Props {
   usuarios: Usuario[];
   onEditar: (usuario: Usuario) => void;
-  onDelete: (usuarioId: string) => void;
+  onDelete: (id: number) => void;
 }
 
 const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
@@ -13,10 +13,11 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
       <table className="tabla-admin">
         <thead>
           <tr>
-            <th>ID</th> {/* Nueva columna */}
+            <th>ID</th>
             <th>Nombre</th>
             <th>Email</th>
             <th>Rol</th>
+            <th>Verificado</th> {/* Nueva columna */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -25,10 +26,11 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
             .filter((usuario) => usuario.usuarioId)
             .map((usuario) => (
               <tr key={usuario.usuarioId}>
-                <td>{usuario.usuarioId}</td> {/* Nueva celda */}
+                <td>{usuario.usuarioId}</td>
                 <td>{usuario.nombre}</td>
                 <td>{usuario.email}</td>
                 <td>{usuario.rol}</td>
+                <td>{usuario.verificado ? "Sí" : "No"}</td> {/* Nueva celda */}
                 <td className="acciones-columna">
                   <button
                     onClick={() => onEditar(usuario)}
@@ -37,7 +39,7 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
                     Editar
                   </button>
                   <button
-                    onClick={() => onDelete(usuario.usuarioId!)}
+                    onClick={() => onDelete(usuario.id!)}
                     className="boton-rojo"
                   >
                     Borrar
@@ -52,3 +54,4 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
 };
 
 export default UsuarioList;
+

@@ -13,4 +13,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     // Muesta el usuarioId en vistas, pero no se usa en rutas
     Optional<Usuario> findByUsuarioId(String usuarioId);
+
+    Optional<Usuario> findByEmail(String email);
 }

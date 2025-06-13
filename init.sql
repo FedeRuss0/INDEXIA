@@ -1,10 +1,10 @@
 USE indexia;
 
--- Insertar usuarios (usuarioId como A1, B1, C1)
-INSERT INTO usuario (id, usuario_id, email, nombre, password, rol) VALUES
-(1, 'A1', 'admin@example.com', 'admin', 'admin', 'ADMIN'),
-(2, 'B1', 'bibliotecario@example.com', 'bibliotecario', 'bibliotecario', 'BIBLIOTECARIO'),
-(3, 'C1', 'cliente@example.com', 'cliente', 'cliente', 'CLIENTE');
+-- Insertar usuarios (usuarioId como A1, B1, C1) con campo verificado
+INSERT INTO usuario (id, usuario_id, email, nombre, password, rol, verificado) VALUES
+(1, 'A1', 'admin@example.com', 'admin', 'admin', 'ADMIN', true),
+(2, 'B1', 'bibliotecario@example.com', 'bibliotecario', 'bibliotecario', 'BIBLIOTECARIO', true),
+(3, 'C1', 'cliente@example.com', 'cliente', 'cliente', 'CLIENTE', true);
 
 -- Insertar libros con codigoLibro de 6 dígitos
 INSERT INTO libro (codigo_libro, titulo, autor, genero, anio, isbn, disponible) VALUES
@@ -23,4 +23,5 @@ INSERT INTO libro (codigo_libro, titulo, autor, genero, anio, isbn, disponible) 
 ('100013', 'Fahrenheit 451', 'Ray Bradbury', 'Distopía', 1953, '9781451673319', true),
 ('100014', 'El viejo y el mar', 'Ernest Hemingway', 'Literatura', 1952, '9780684801223', true),
 ('100015', 'Las ventajas de ser invisible', 'Stephen Chbosky', 'Juvenil', 2000, '9781451696202', true);
+
 

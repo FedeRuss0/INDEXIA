@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
-  const navigate = useNavigate();
 
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [mensaje, setMensaje] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setMensaje('');
 
     try {
       const response = await fetch('http://localhost:8080/usuarios', {
@@ -26,7 +27,7 @@ const Register = () => {
       });
 
       if (response.ok) {
-        navigate('/login');
+        setMensaje('Registro exitoso. Te enviamos un correo para verificar tu cuenta.');
       } else {
         const data = await response.json();
         setError(data.message || 'Error al registrarse');
@@ -68,6 +69,7 @@ const Register = () => {
           Registrarse
         </button>
         {error && <p className="login-error">{error}</p>}
+        {mensaje && <p className="login-success">{mensaje}</p>}
       </form>
 
       <div className="login-extra-links">
@@ -80,3 +82,4 @@ const Register = () => {
 };
 
 export default Register;
+

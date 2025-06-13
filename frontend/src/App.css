@@ -819,3 +819,125 @@ body.modo-oscuro button {
   border: none;
   border-top: 1px solid #444;
 }
+
+.verificacion-container {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+}
+
+.verificacion-container button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-success {
+  color: green;
+  margin-top: 10px;
+}
+
+.verificacion-mensaje.ok {
+  color: green;
+}
+
+.verificacion-mensaje.error {
+  color: red;
+}
+
+.verificacion-mensaje.info {
+  color: #555;
+}
+
+.verificacion-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.contenedor-reset {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-reset h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.contenedor-reset form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contenedor-reset input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.contenedor-reset button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contenedor-reset button:hover {
+  background-color: #45a049;
+}
+
+.contenedor-reset p {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.reset-mensaje {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.reset-mensaje p {
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.reset-login-button {
+  padding: 10px 18px;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reset-login-button:hover {
+  background-color: #45a049;
+}
+
+.mensaje-ok {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.mensaje-error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}

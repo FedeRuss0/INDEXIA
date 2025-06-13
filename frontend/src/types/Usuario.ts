@@ -1,8 +1,9 @@
 export type Usuario = {
-  Id?: number;
+  id?: number;
   usuarioId?: string;
   nombre: string;
   email: string;
   password: string;
   rol: "ADMIN" | "BIBLIOTECARIO" | "CLIENTE";
+  verificado?: boolean;
 };

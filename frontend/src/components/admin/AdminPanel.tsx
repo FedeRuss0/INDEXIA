@@ -18,7 +18,7 @@ const AdminPanel = () => {
     disponible: true,
   });
   const [modoEditarLibro, setModoEditarLibro] = useState(false);
-  const [mensajeErrorLibro, setMensajeErrorLibro] = useState<string | null>(null); // Nuevo estado
+  const [mensajeErrorLibro, setMensajeErrorLibro] = useState<string | null>(null);
 
   const fetchLibros = async () => {
     const res = await fetch("http://localhost:8080/libros");
@@ -28,7 +28,7 @@ const AdminPanel = () => {
 
   const handleSubmitLibro = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMensajeErrorLibro(null); // Limpiar mensaje previo
+    setMensajeErrorLibro(null);
 
     const url = modoEditarLibro && formLibro.id
       ? `http://localhost:8080/libros/${formLibro.id}`
@@ -82,7 +82,8 @@ const AdminPanel = () => {
     rol: "CLIENTE",
   });
   const [modoEditarUsuario, setModoEditarUsuario] = useState(false);
-  const [usuarioIdEditando, setUsuarioIdEditando] = useState<string | null>(null);
+  const [usuarioIdEditando, setUsuarioIdEditando] = useState<number | null>(null);
+  const [mensajeUsuario, setMensajeUsuario] = useState<string | null>(null);
 
   const fetchUsuarios = async () => {
     const res = await fetch("http://localhost:8080/usuarios");
@@ -92,37 +93,50 @@ const AdminPanel = () => {
 
   const handleSubmitUsuario = async (e: React.FormEvent) => {
     e.preventDefault();
-    const url = modoEditarUsuario
+    setMensajeUsuario(null);
+
+    const url = modoEditarUsuario && usuarioIdEditando !== null
       ? `http://localhost:8080/usuarios/${usuarioIdEditando}`
       : "http://localhost:8080/usuarios";
     const method = modoEditarUsuario ? "PUT" : "POST";
 
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formUsuario),
-    });
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formUsuario),
+      });
 
-    setFormUsuario({
-      nombre: "",
-      email: "",
-      password: "",
-      rol: "CLIENTE",
-    });
-    setModoEditarUsuario(false);
-    setUsuarioIdEditando(null);
-    fetchUsuarios();
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Error al guardar el usuario");
+      }
+
+      setMensajeUsuario("Usuario guardado correctamente");
+
+      setFormUsuario({
+        nombre: "",
+        email: "",
+        password: "",
+        rol: "CLIENTE",
+      });
+      setModoEditarUsuario(false);
+      setUsuarioIdEditando(null);
+      fetchUsuarios();
+    } catch (err: any) {
+      setMensajeUsuario(err.message || "Error inesperado");
+    }
   };
 
-  const handleDeleteUsuario = async (usuarioId: string) => {
-    await fetch(`http://localhost:8080/usuarios/${usuarioId}`, { method: "DELETE" });
+  const handleDeleteUsuario = async (id: number) => {
+    await fetch(`http://localhost:8080/usuarios/${id}`, { method: "DELETE" });
     fetchUsuarios();
   };
 
   const handleEditUsuario = (usuario: Usuario) => {
     setFormUsuario(usuario);
     setModoEditarUsuario(true);
-    setUsuarioIdEditando(usuario.usuarioId || null);
+    setUsuarioIdEditando(usuario.id ?? null);
   };
 
   useEffect(() => {
@@ -146,7 +160,7 @@ const AdminPanel = () => {
         <LibroList
           libros={libros}
           onEdit={handleEditLibro}
-          onDelete={(libroId) => handleDeleteLibro(libroId)}
+          onDelete={handleDeleteLibro}
         />
       </section>
 
@@ -158,6 +172,11 @@ const AdminPanel = () => {
           onSubmit={handleSubmitUsuario}
           modoEditar={modoEditarUsuario}
         />
+        {mensajeUsuario && (
+          <p className={mensajeUsuario.includes("correctamente") ? "mensaje-ok" : "mensaje-error"}>
+            {mensajeUsuario}
+          </p>
+        )}
         <UsuarioList
           usuarios={usuarios}
           onEditar={handleEditUsuario}

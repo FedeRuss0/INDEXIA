@@ -1,9 +1,5 @@
 import type { Usuario } from "../../types/Usuario";
 
-
-
-
-
 interface Props {
   form: Usuario;
   setForm: React.Dispatch<React.SetStateAction<Usuario>>;
@@ -15,6 +11,10 @@ const UsuarioForm = ({ form, setForm, onSubmit, modoEditar }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm(prev => ({ ...prev, verificado: e.target.checked }));
   };
 
   return (
@@ -52,6 +52,18 @@ const UsuarioForm = ({ form, setForm, onSubmit, modoEditar }: Props) => {
         <option value="BIBLIOTECARIO">Bibliotecario</option>
         <option value="CLIENTE">Cliente</option>
       </select>
+
+      {modoEditar && (
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            name="verificado"
+            checked={form.verificado || false}
+            onChange={handleCheckboxChange}
+          />
+          Verificado
+        </label>
+      )}
 
       <button type="submit" className="boton-form">
         {modoEditar ? "Guardar cambios" : "Crear usuario"}
