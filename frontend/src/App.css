@@ -798,3 +798,24 @@ body.modo-oscuro button {
   border-radius: 4px;
   font-weight: bold;
 }
+
+.footer {
+  background-color: #1f1f1f;
+  color: #eee;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  border-top: 2px solid #333;
+}
+
+.footer p {
+  margin: 4px 0;
+}
+
+.footer hr {
+  margin: 10px auto;
+  width: 60%;
+  border: none;
+  border-top: 1px solid #444;
+}

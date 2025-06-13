@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import MisPrestamos from "../components/cliente/MisPrestamos";
+import Footer from "../components/Footer";
+
 
 interface Libro {
   id: number; //  clave usada en rutas
@@ -93,6 +95,7 @@ const ClienteHome = () => {
           <MisPrestamos />
         </div>
       </div>
+      <Footer />
     </>
   );
 };
