@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const EnviarCorreo = () => {
   const [email, setEmail] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +32,12 @@ const EnviarCorreo = () => {
         />
         <button type="submit">Enviar enlace</button>
       </form>
+
       {mensaje && <p>{mensaje}</p>}
+
+      <button onClick={() => navigate("/login")} className="login-button">
+        Volver al login
+      </button>
     </div>
   );
 };

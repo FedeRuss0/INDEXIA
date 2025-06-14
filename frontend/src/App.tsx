@@ -23,7 +23,7 @@ function App() {
         <Route path="/cliente/libro/:id" element={<LibroDetalle />} />
         <Route path="/cambiar-contrasenia" element={<CambiarContrasenia />} />
         <Route path="/perfil" element={<RutaProtegida><Perfil /></RutaProtegida>} />
-        <Route path="/verificar" element={<VerificarCuenta />} />
+        <Route path="/verificar/:token" element={<VerificarCuenta />} />
         <Route path="/resetear/:token" element={<ResetPassword />} />
         <Route path="/recuperar" element={<EnviarCorreo />} />
 

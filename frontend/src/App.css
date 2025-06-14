@@ -238,6 +238,8 @@ h1, h2 {
 }
 
 .login-button {
+  margin: 12px auto 0 auto;
+  display: block;
   background-color: #2563eb;
   color: white;
   padding: 12px;
@@ -922,7 +924,9 @@ body.modo-oscuro button {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 12px; 
 }
+
 
 .reset-login-button:hover {
   background-color: #45a049;

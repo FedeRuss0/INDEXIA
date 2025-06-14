@@ -26,7 +26,7 @@ public class VerificacionController {
         VerificationToken vt = tokenRepo.findByToken(token);
 
         if (vt == null) {
-            // 🔄 Si el token ya fue usado, buscamos por usuario relacionado para ver si ya está verificado
+            // Si el token ya fue usado, buscamos por usuario relacionado para ver si ya está verificado
             Usuario yaVerificado = usuarioRepo.findAll()
                 .stream()
                 .filter(Usuario::isVerificado)

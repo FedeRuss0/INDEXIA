@@ -59,14 +59,14 @@ public class UsuarioService {
 
         tokenRepository.save(verificationToken);
 
-        String link = "http://localhost:5173/resetear/" + token;
+        String link = "http://localhost:5173/verificar/" + token;
         String asunto = "Verificá tu cuenta en INDEXIA";
         String cuerpo = "Hola " + usuario.getNombre() + ",\n\nPor favor verificá tu cuenta haciendo clic en el siguiente enlace:\n" + link + "\n\nEste enlace expira en 24 horas.";
 
         emailService.enviarCorreo(usuario.getEmail(), asunto, cuerpo);
     }
 
-    // ✅ Enviar correo de recuperación
+    // Enviar correo de recuperación
     public void enviarLinkRecuperacion(String email) {
         Usuario usuario = usuarioRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("No se encontró una cuenta válida con ese correo."));
@@ -128,7 +128,7 @@ public class UsuarioService {
         };
     }
 
-    // ✅ Nuevo: método para resetear la contraseña usando un token
+    // Nuevo: método para resetear la contraseña usando un token
     public boolean resetearContrasenia(String token, String nuevaContrasenia) {
         Optional<PasswordResetToken> optionalToken = passwordResetTokenRepository.findByToken(token);
 
@@ -142,7 +142,7 @@ public class UsuarioService {
         }
 
         Usuario usuario = prt.getUsuario();
-        usuario.setPassword(nuevaContrasenia); // 🔐 En producción, encriptá esto con BCrypt
+        usuario.setPassword(nuevaContrasenia); // En producción, encriptá esto con BCrypt
         usuarioRepository.save(usuario);
 
         passwordResetTokenRepository.delete(prt); // uso único

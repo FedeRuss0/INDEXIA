@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const VerificarCuenta = () => {
-  const [searchParams] = useSearchParams();
+  const { token } = useParams();
   const [mensaje, setMensaje] = useState("Verificando...");
   const [estado, setEstado] = useState<"ok" | "error" | "info">("info");
-  const token = searchParams.get("token");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +16,7 @@ const VerificarCuenta = () => {
       }
 
       try {
+        // Ruta corregida
         const res = await fetch(`http://localhost:8080/verificar?token=${token}`);
         const texto = await res.text();
 
