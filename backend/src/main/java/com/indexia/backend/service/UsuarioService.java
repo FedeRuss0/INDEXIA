@@ -106,6 +106,7 @@ public class UsuarioService {
             usuario.setNombre(datosActualizados.getNombre());
             usuario.setEmail(datosActualizados.getEmail());
             usuario.setRol(datosActualizados.getRol());
+            usuario.setVerificado(datosActualizados.isVerificado());
 
             if (datosActualizados.getPassword() != null && !datosActualizados.getPassword().isEmpty()) {
                 usuario.setPassword(datosActualizados.getPassword());
@@ -128,7 +129,7 @@ public class UsuarioService {
         };
     }
 
-    // Nuevo: método para resetear la contraseña usando un token
+    //método para resetear la contraseña usando un token
     public boolean resetearContrasenia(String token, String nuevaContrasenia) {
         Optional<PasswordResetToken> optionalToken = passwordResetTokenRepository.findByToken(token);
 
@@ -148,5 +149,13 @@ public class UsuarioService {
         passwordResetTokenRepository.delete(prt); // uso único
 
         return true;
+    }
+
+    //Actualizar estado de verificación
+    public Optional<Usuario> actualizarVerificacion(Long id, boolean verificado) {
+        return usuarioRepository.findById(id).map(usuario -> {
+            usuario.setVerificado(verificado);
+            return usuarioRepository.save(usuario);
+        });
     }
 }

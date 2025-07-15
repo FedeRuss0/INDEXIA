@@ -30,9 +30,10 @@ const AdminPanel = () => {
     e.preventDefault();
     setMensajeErrorLibro(null);
 
-    const url = modoEditarLibro && formLibro.id
-      ? `http://localhost:8080/libros/${formLibro.id}`
-      : "http://localhost:8080/libros";
+    const url =
+      modoEditarLibro && formLibro.id
+        ? `http://localhost:8080/libros/${formLibro.id}`
+        : "http://localhost:8080/libros";
     const method = modoEditarLibro ? "PUT" : "POST";
 
     try {
@@ -95,9 +96,10 @@ const AdminPanel = () => {
     e.preventDefault();
     setMensajeUsuario(null);
 
-    const url = modoEditarUsuario && usuarioIdEditando !== null
-      ? `http://localhost:8080/usuarios/${usuarioIdEditando}`
-      : "http://localhost:8080/usuarios";
+    const url =
+      modoEditarUsuario && usuarioIdEditando !== null
+        ? `http://localhost:8080/usuarios/${usuarioIdEditando}`
+        : "http://localhost:8080/usuarios";
     const method = modoEditarUsuario ? "PUT" : "POST";
 
     try {

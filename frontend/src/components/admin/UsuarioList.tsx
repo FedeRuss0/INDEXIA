@@ -17,7 +17,7 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
             <th>Nombre</th>
             <th>Email</th>
             <th>Rol</th>
-            <th>Verificado</th> {/* Nueva columna */}
+            <th>Verificado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -30,7 +30,7 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.email}</td>
                 <td>{usuario.rol}</td>
-                <td>{usuario.verificado ? "Sí" : "No"}</td> {/* Nueva celda */}
+                <td>{usuario.verificado ? "Sí" : "No"}</td>
                 <td className="acciones-columna">
                   <button
                     onClick={() => onEditar(usuario)}
@@ -54,4 +54,3 @@ const UsuarioList = ({ usuarios, onEditar, onDelete }: Props) => {
 };
 
 export default UsuarioList;
-

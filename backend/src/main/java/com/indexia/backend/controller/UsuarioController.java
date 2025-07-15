@@ -74,4 +74,18 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body("Token inválido o expirado.");
         }
     }
+
+    // Actualizar estado de verificación
+    @PutMapping("/{id}/verificado")
+    public ResponseEntity<Usuario> actualizarVerificacion(
+            @PathVariable Long id,
+            @RequestBody Map<String, Boolean> request) {
+
+        boolean nuevoEstado = request.getOrDefault("verificado", false);
+
+        return usuarioService.actualizarVerificacion(id, nuevoEstado)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
+
